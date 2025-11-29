@@ -1,60 +1,54 @@
-<?php require 'config/database.php'; ?>
-
-<h2>Tambah Produk</h2>
-<a href="index.php">Kembali</a><br><br>
-
-<form action="" method="POST" enctype="multipart/form-data">
-
-    Nama: <br>
-    <input type="text" name="name" required><br><br>
-
-    Kategori: <br>
-    <select name="category">
-        <option value="makanan">Makanan</option>
-        <option value="minuman">Minuman</option>
-        <option value="lainnya">Lainnya</option>
-    </select><br><br>
-
-    Harga: <br>
-    <input type="number" step="0.01" name="price" required><br><br>
-
-    Stok: <br>
-    <input type="number" name="stock" required><br><br>
-
-    Gambar: <br>
-    <input type="file" name="image" required><br><br>
-
-    Status: <br>
-    <select name="status">
-        <option value="active">Aktif</option>
-        <option value="inactive">Tidak Aktif</option>
-    </select><br><br>
-
-    <button type="submit" name="submit">Simpan</button>
-
-</form>
-
 <?php
+require 'config/database.php';
+
+// proses submit POST ada di bawah
 if (isset($_POST['submit'])) {
-
-    $name     = $_POST['name'];
-    $category = $_POST['category'];
-    $price    = $_POST['price'];
-    $stock    = $_POST['stock'];
-    $status   = $_POST['status'];
-
-    // file upload
-    $fileName = $_FILES['image']['name'];
-    $tmpName  = $_FILES['image']['tmp_name'];
-
-    $newName = time() . "_" . $fileName;
-    move_uploaded_file($tmpName, "uploads/" . $newName);
-
-    $sql = "INSERT INTO products (name, category, price, stock, image_path, status)
-            VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$name, $category, $price, $stock, $newName, $status]);
-
-    header("Location: index.php");
+    // ... proses tambah data
 }
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tambah Produk</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Tambah Produk</h2>
+    <a class="button" href="index.php">Kembali</a>
+
+    <form action="" method="POST" enctype="multipart/form-data">
+        <label>Nama</label>
+        <input type="text" name="name" required>
+
+        <label>Kategori</label>
+        <select name="category">
+            <option value="makanan">Makanan</option>
+            <option value="minuman">Minuman</option>
+            <option value="lainnya">Lainnya</option>
+        </select>
+
+        <label>Harga</label>
+        <input type="number" step="0.01" name="price" required>
+
+        <label>Stok</label>
+        <input type="number" name="stock" required>
+
+        <label>Gambar</label>
+        <input type="file" name="image">
+
+        <label>Status</label>
+        <select name="status">
+            <option value="active">Aktif</option>
+            <option value="inactive">Tidak Aktif</option>
+        </select>
+
+        <button type="submit" name="submit">Tambah</button>
+    </form>
+
+</div> <!-- Tutup container -->
+
+</body>
+</html>
